@@ -59,14 +59,19 @@
                     <td><%= serviceData[i].cust_id %></td>
                     <td><%= serviceData[i].apply_time %></td>
                     <td><%= serviceStatus[serviceData[i].status] %></td>
-                    <td><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank' class="btn btn-primary">Detail</a>
+                    <!--<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#serviceDetail">
+                            Detailn
+                        </button>
+                    </td>-->
+                    <td><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank'
+                            class="btn btn-primary">Detail</a>
                     </td>
                 </tr>
                 <% } %>
             </tbody>
         </table>
-        <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
