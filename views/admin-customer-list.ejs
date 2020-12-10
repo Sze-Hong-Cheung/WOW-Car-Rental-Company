@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0    " style="position: fixed; width:  100%;">
+    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" style="position: fixed; width:  100%;">
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">World On Wheels</a>
 
         <ul class="navbar-nav px-3">
@@ -28,12 +28,12 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active nav-link-active" href="/admin/service">
-                                Service <span class="sr-only">(current)</span>
+                            <a class="nav-link" href="/admin/service">
+                                Service
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/customer">
+                            <a class="nav-link active nav-link-active" href="/admin/customer">
                                 Customer <span class="sr-only">(current)</span>
                             </a>
                         </li>
@@ -48,26 +48,29 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <form method="get">
                     <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="searchServiceNo">Service Number</label>
-                            <input name="service_no" type="text" class="form-control" id="service_no" placeholder=""
-                                value=<%= serviceNoValue %>>
-                        </div>
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-2 mb-2">
                             <label for="searchCustId">Customer ID</label>
                             <input name="cust_id" type="text" class="form-control" id="cust_id" placeholder=""
-                                value=<%= custIdValue %>>
+                                value=<%= cust_id %>>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="searchCustId">Status</label>
-                            <select name="status" class="form-control" id="exampleFormControlSelect1">
-                                <option <%= currentStatus == '' ? 'Selected' : '' %> value=''>All</option>
-                                <% for (let i=0 ; i<serviceStatus.length; i++) { %>
-                                <option value=<%= i %>
-                                    <%= (currentStatus == i && currentStatus !== '') ? 'Selected' : '' %>>
-                                    <%= serviceStatus[i] %></option>
-                                <% } %>
+
+                        <div class="col-md-2 mb-2">
+                            <label for="searchCustType">Status</label>
+                            <select name="cust_type" class="form-control" id="exampleFormControlSelect1">
+                                <option <%= cust_type == '' ? 'Selected' : '' %> value=''>All</option>
+                                <option value='I' <%= (cust_type == 'I') ? 'Selected' : '' %>>Individual</option>
+                                <option value='C' <%= (cust_type == 'C') ? 'Selected' : '' %>>Corporate</option>
                             </select>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <label for="searchMail">Email</label>
+                            <input name="email" type="text" class="form-control" id="email" placeholder=""
+                                value=<%= email %>>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <label for="searchPhone">Phone</label>
+                            <input name="phone" type="text" class="form-control" id="phone" placeholder=""
+                                value=<%= phone %>>
                         </div>
                         <div class="col-md-1 mb-1">
                             <label for=""> </label>
@@ -79,25 +82,23 @@
                 <table class="table text-center">
                     <thead>
                         <tr>
-                            <th scope="col">Service No.</th>
                             <th scope="col">Customer ID</th>
-                            <th scope="col">Apply time</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Customer Type</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (let i=0; i<serviceData.length; i++) { %>
+                        <% for (let i=0 ; i<customerData.length; i++) { %>
                         <tr>
-                            <td><%= serviceData[i].service_no %></td>
-                            <td><%= serviceData[i].cust_id %></td>
-                            <td><%= serviceData[i].apply_time %></td>
-                            <td><%= serviceStatus[serviceData[i].status] %></td>
-                            <!--<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#serviceDetail">
-                                    Detailn
-                                </button>
-                            </td>-->
-                            <td><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank'
+                            <td><%= customerData[i].cust_id %></td>
+                            <td><%= customerData[i].cust_type == 'I' ? "Individual" : "Corporate"%></td>
+                            <td><%= customerData[i].email %></td>
+                            <td><%= customerData[i].phone %></td>
+                            <td><a href=<%= '/admin/customer/delete?cust_id=' +  customerData[i].cust_id %>
+                                    class="btn btn-primary">Delete</a>
+                                <a href=<%= '/admin/customer/' +  customerData[i].cust_id %> target='_blank'
                                     class="btn btn-primary">Detail</a>
                             </td>
                         </tr>

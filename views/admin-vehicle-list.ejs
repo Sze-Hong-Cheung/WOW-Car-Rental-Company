@@ -14,7 +14,6 @@
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0    " style="position: fixed; width:  100%;">
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">World On Wheels</a>
-
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="#">Username Sign out</a>
@@ -28,18 +27,18 @@
                 <div class="sidebar-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active nav-link-active" href="/admin/service">
-                                Service <span class="sr-only">(current)</span>
+                            <a class="nav-link" href="/admin/service">
+                                Service
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/customer">
-                                Customer <span class="sr-only">(current)</span>
+                                Customer 
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/admin/vehicle">
-                                Vehicle
+                            <a class="nav-link active nav-link-active" href="/admin/vehicle">
+                                Vehicle <span class="sr-only">(current)</span>
                             </a>
                         </li>
                     </ul>
@@ -48,26 +47,25 @@
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
                 <form method="get">
                     <div class="row">
-                        <div class="col-md-3 mb-3">
-                            <label for="searchServiceNo">Service Number</label>
-                            <input name="service_no" type="text" class="form-control" id="service_no" placeholder=""
-                                value=<%= serviceNoValue %>>
+                        <div class="col-md-2 mb-2">
+                            <label for="searchVin">Vin</label>
+                            <input name="vin" type="text" class="form-control" id="vin" placeholder="" value=<%= vin %>>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="searchCustId">Customer ID</label>
-                            <input name="cust_id" type="text" class="form-control" id="cust_id" placeholder=""
-                                value=<%= custIdValue %>>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="searchCustId">Status</label>
-                            <select name="status" class="form-control" id="exampleFormControlSelect1">
-                                <option <%= currentStatus == '' ? 'Selected' : '' %> value=''>All</option>
-                                <% for (let i=0 ; i<serviceStatus.length; i++) { %>
+                        <div class="col-md-2 mb-2">
+                            <label for="searchCustType">Class</label>
+                            <select name="class_no" class="form-control" id="exampleFormControlSelect1">
+                                <option <%= class_no == '' ? 'Selected' : '' %> value=''>All</option>
+                                <% for (let i=1 ; i<vehicleClassArr.length; i++) { %>
                                 <option value=<%= i %>
-                                    <%= (currentStatus == i && currentStatus !== '') ? 'Selected' : '' %>>
-                                    <%= serviceStatus[i] %></option>
+                                    <%= (class_no == i && class_no !== '') ? 'Selected' : '' %>>
+                                    <%= vehicleClassArr[i] %></option>
                                 <% } %>
                             </select>
+                        </div>
+                        <div class="col-md-2 mb-2">
+                            <label for="searchMake">Make</label>
+                            <input name="make" type="text" class="form-control" id="make" placeholder=""
+                                value=<%= make %>>
                         </div>
                         <div class="col-md-1 mb-1">
                             <label for=""> </label>
@@ -79,29 +77,25 @@
                 <table class="table text-center">
                     <thead>
                         <tr>
-                            <th scope="col">Service No.</th>
-                            <th scope="col">Customer ID</th>
-                            <th scope="col">Apply time</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Vin</th>
+                            <th scope="col">Class</th>
+                            <th scope="col">Make/Model/Year</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% for (let i=0; i<serviceData.length; i++) { %>
+                        <% if (vehicleData !== undefined) {for (let i=0 ; i<vehicleData.length; i++) { %>
                         <tr>
-                            <td><%= serviceData[i].service_no %></td>
-                            <td><%= serviceData[i].cust_id %></td>
-                            <td><%= serviceData[i].apply_time %></td>
-                            <td><%= serviceStatus[serviceData[i].status] %></td>
-                            <!--<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#serviceDetail">
-                                    Detailn
-                                </button>
-                            </td>-->
-                            <td><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank'
+                            <td><%= vehicleData[i].vin %></td>
+                            <td><%= vehicleData[i].class_name %></td>
+                            <td><%= vehicleData[i].make %> <%= vehicleData[i].model %> <%= vehicleData[i].year %></td>
+                            <td><a href=<%= '/admin/vehicle/delete?vin=' +  vehicleData[i].vin %>
+                                    class="btn btn-primary">Delete</a>
+                                <a href=<%= '/admin/vehicle/' +  vehicleData[i].vin %> target='_blank'
                                     class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
-                        <% } %>
+                        <% } }%>
                     </tbody>
                 </table>
                 <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog"
