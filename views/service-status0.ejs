@@ -60,52 +60,6 @@
                     </dd>
                 </dl>
             </div>
-            <% if (serviceData.status == 0) { %>
-            <div class="card-body">
-                <form name="rentForm" method="post" onsubmit="return checkInp()">
-                    <div class="form-group row">
-                        <label for="inputOdometer" class="col-sm-4 col-form-label">Start Odometer</label>
-                        <div class="col-sm-4">
-                            <input name="odometerStatus0" type="text" class="form-control" id="startOdometer" value=<%= odometerStatus0 %>>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputCoupon" class="col-sm-4 col-form-label">Coupon Number (optinal)</label>
-                        <div class="col-sm-4">
-                            <input name="couponStatus0" type="text" class="form-control" id="inputCoupon" value=<%= couponStatus0 %>>
-                        </div>
-                    </div>
-                    <input hidden name="currentStatus" value=<%= serviceData.status %>>
-                    <button type="submit" class="btn btn-primary mb-2">Comfirm and Rent</button>
-                </form>
-            </div>
-            <% } %>
         </div>
     </div>
-    <script>
-        window.onload = function () {
-            if ( <%= couponInputStatus0 != "" %>) {
-                alert("<%= couponInputStatus0 %>");
-            }
-        }
-
-        function checkInp() {
-
-            var x = document.forms["rentForm"]["odometerStatus0"].value;
-            if (x == '') {
-                alert("Start odometer is required.");
-                return false;
-            }
-            if (isNaN(x)) {
-                alert("Must input numbers in odometer.");
-                return false;
-            }
-            x = document.forms["rentForm"]["couponStatus0"].value;
-            if (isNaN(x)) {
-                alert("Must input numbers in coupon.");
-                return false;
-            }
-        }
-    </script>
-
     <%- include("footer") -%>

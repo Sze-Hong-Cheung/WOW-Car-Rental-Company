@@ -66,60 +66,7 @@
 
                 </dl>
             </div>
-            <div class="card-body">
-                <form name="returnForm" method="post" onsubmit="return checkInp()">
-                    <div class="form-group row">
-                        <label for="inputLocation" class="col-sm-4 col-form-label">Dropoff Location</label>
-                        <div class="col-sm-8">
-                            <select name="locationStatus1" class="form-control" id="exampleFormControlSelect1">
-                                <% for (let i=0 ; i<allLocation.length; i++) { %>
-                                <option value=<%= allLocation[i].office_id %>
-                                    <%= (locationStatus1 == allLocation[i].office_id && locationStatus1 !== '') ? 'Selected' : '' %>>
-                                    <%= allLocation[i].street + ' ,' + allLocation[i].city + ' ,' + allLocation[i].state  %>
-                                </option>
-                                <% } %>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="startOdometer" class="col-sm-4 col-form-label">Start Odometer</label>
-                        <div class="col-sm-8">
-                            <input disabled name="startOdometerStatus1" type="text" class="form-control"
-                                id="startOdometerStatus1" placeholder=<%= serviceData.start_odometer %> >
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="inputOdometer" class="col-sm-4 col-form-label">End Odometer</label>
-                        <div class="col-sm-8">
-                            <input name="odometerStatus1" type="text" class="form-control" id="endOdometer"
-                                value=<%= odometerStatus1 %>>
-                        </div>
-                    </div>
-                    <input hidden name="currentStatus" value=<%= serviceData.status %>>
-                    <button type="submit" class="btn btn-primary mb-2">Comfirm and Rent</button>
-                </form>
-            </div>
         </div>
     </div>
-    <script>
-        window.onload = function () {
-            if ( < %= odometerInputStatus1 != "" % > ) {
-                alert("<%= odometerInputStatus1 %>");
-            }
-        }
-
-        function checkInp() {
-
-            var x = document.forms["returnForm"]["odometerStatus1"].value;
-            if (x == '') {
-                alert("End odometer is required.");
-                return false;
-            }
-            if (isNaN(x)) {
-                alert("Must input numbers in odometer.");
-                return false;
-            }
-        }
-    </script>
 
     <%- include("footer") -%>

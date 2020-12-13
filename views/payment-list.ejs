@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Order History</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' href="/css/admin-service-list.css">
+</head>
+
+<body>
+    <%- include("user-nav") -%>
+    <div class="container-fluid">
+        <div class="row" style="padding-top: 30px; padding-bottom: 30px;">
+            <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+                <div class="col-md-8 ml-sm-auto col-lg-8" style ="text-align:left!important;">
+                    <h2 style ="text-align:left!important;">Payment of Service <%= service_no %></h2>
+                </div>
+                <div style="text-align: right;" class="col-md-4 ml-sm-auto col-lg-4">
+                    <h3>Total Fee <%= results[0].invoice_amount %></h3>
+                </div>
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Payment No.</th>
+                            <th scope="col">Payment Time</th>
+                            <th scope="col">Method</th>
+                            <th scope="col">Card No.</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i<results.length; i++) { %>
+                        <tr>
+                            <td><%= results[i].payment_no %></td>
+                            <td><%= results[i].payment_time %></td>
+                            <td><%= results[i].payment_method == 'C' ? 'Credit' : (results[i].payment_method == 'D' ? 'Debit' : 'Gift') %>
+                            </td>
+                            <td><%= results[i].card_no %></td>
+                            <td><%= results[i].payment_amount %></td>
+
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include("footer") -%>

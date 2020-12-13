@@ -12,39 +12,14 @@
 </head>
 
 <body class="text-center" style="display: block">
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">World On Wheels</a>
-            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>-->
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <!--<li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>-->
-                </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <span class="" style="color:white;margin-right: 20px;">Username </span>
-                    <a href="logout" class="my-2 my-sm-0" type="submit" style="color: white;">Sign Out</a>
-                </form>
-            </div>
-        </nav>
-    </header>
+    <%- include("user-nav") -%>
     <main role="main">
         <div class="container">
             <div class="card" style="margin: 50px auto 50px auto; max-width: 700px;">
                 <h5 class="card-header">Select Vehicle</h5>
 
                 <div class="card-body">
-                    <form action="/apply2" method="get">
+                    <form method="get">
                         <div class="form-row" style="padding-left: 5px;">
                             <p> Availible vehicle at Pickup Location:
                                 <%= apply1History.pickup_street + ', ' + apply1History.pickup_city + ', ' + apply1History.pickup_state %>
@@ -70,12 +45,17 @@
                             </div>
                         </div>
                     </form>
-                    <form action="" method="post">
+                    <% if (class_no != "") { %>
+                    <div class="col-md-4" style="text-align: left;"><label for="">Rental rate: <%=  rentalRateArr[class_no] %></label></div>
+                    <div class="col-md-4" style="text-align: left;"><label for="">Mileage fee: <%=  mileageFeeArr[class_no] %></label></div>
+                    <div class="col-md-4" style="text-align: left;"><label for="">Odometer limit: <%=  odometerLimitArr[class_no] %></label></div>
+                    <% } %>
+                    <form method="post">
                         <select name="vin" class="custom-select" size="8" required>
                             <% if (results != undefined) {
                             for (let i=0; i<results.length; i++) { %>
                             <option value=<%= results[i].vin %>>
-                                <%= results[i].make + ' ' + results[i].model + '' + results[i].year %></option>
+                                <%= results[i].make + ' ' + results[i].model + ' ' + results[i].year %></option>
                             <% } }%>
                         </select>
                         <div class="form-group col-md-12" style="margin-top: 20px; text-align: center;">

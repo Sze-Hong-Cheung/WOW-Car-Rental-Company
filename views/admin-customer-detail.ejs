@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Service Detail</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' href="/css/admin-service-detail.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="card" style="margin: 50px auto 50px auto; max-width: 700px;">
+            <h5 class="card-header">Detail about Customer <%= results.cust_id %></h5>
+
+            <div class="card-body">
+                <% if (results.cust_type == 'I') { %>
+                <dl class="row">
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Basic Info</dt>
+
+                    <dd class="col-sm-4">Customer ID</dt>
+                    <dd class="col-sm-8"><%= results.cust_id %></dd>
+
+                    <dd class="col-sm-4">Customer Type</dt>
+                    <dd class="col-sm-8"><%= (results.cust_type == 'I') ? 'Individual' : 'Corporate' %></dd>
+
+                    <dd class="col-sm-4">First Name</dt>
+                    <dd class="col-sm-8"><%= results.fname %></dd>
+
+                    <dd class="col-sm-4">Last Name</dt>
+                    <dd class="col-sm-8"><%= results.lname %></dd>
+
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Contact Info</dt>
+                    <dd class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8"><%= results.email %></dd>
+
+                    <dd class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8"><%= results.phone %></dd>
+                    <dd class="col-sm-4">Address</dt>
+                    <dd class="col-sm-8"><%= results.street + ', ' + results.city + ', ' + results.state%></dd>
+
+
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Other Info</dt>
+
+
+                    <dd class="col-sm-4">Driver License Number</dt>
+                    <dd class="col-sm-8"><%= results.driver_license_no %></dd>
+
+                    <dd class="col-sm-4">Insurance Company Name</dt>
+                    <dd class="col-sm-8"><%= results.insurance_co_name %></dd>
+
+                    <dd class="col-sm-4">Insurance Policy Number</dt>
+                    <dd class="col-sm-8"><%= results.insurance_policy_no %></dd>
+
+
+                </dl>
+                <% } else { %>
+                <dl class="row">
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Basic Info</dt>
+
+                    <dd class="col-sm-4">Customer ID</dt>
+                    <dd class="col-sm-8"><%= results.cust_id %></dd>
+
+                    <dd class="col-sm-4">Customer Type</dt>
+                    <dd class="col-sm-8"><%= (results.cust_type == 'I') ? 'Individual' : 'Corporate' %></dd>
+
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Contact Info</dt>
+                    <dd class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8"><%= results.email %></dd>
+
+                    <dd class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8"><%= results.phone %></dd>
+                    <dd class="col-sm-4">Address</dt>
+                    <dd class="col-sm-8"><%= results.street + ', ' + results.city + ', ' + results.state%></dd>
+
+
+                    <dt class="col-sm-12" style="margin-top: 15px; margin-bottom: 5px;">Company Info</dt>
+
+
+                    <dd class="col-sm-4">Registration Number</dt>
+                    <dd class="col-sm-8"><%= results.registration_number%></dd>
+
+                    <dd class="col-sm-4">Company Name</dt>
+                    <dd class="col-sm-8"><%= results.cname %></dd>
+
+                    <dd class="col-sm-4">Employee ID</dt>
+                    <dd class="col-sm-8"><%= results.emp_id %></dd>
+
+                    <dd class="col-sm-4">Discount for Company</dt>
+                    <dd class="col-sm-8"><%= (results.discount * 100) + "% off"%></dd>
+
+                </dl>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <%- include("footer") -%>

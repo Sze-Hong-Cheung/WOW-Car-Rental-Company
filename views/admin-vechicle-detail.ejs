@@ -14,17 +14,17 @@
 <body>
     <div class="container">
         <div class="card" style="margin: 50px auto 50px auto; max-width: 700px;">
-            <h5 class="card-header">Detail about Service <%= serviceData.service_no %></h5>
+            <h5 class="card-header">Detail about Vehicle <%= results.vin %></h5>
 
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-12" style="margin-bottom: 5px;">Info</dt>
 
-                    <dd class="col-sm-4">Service Number</dt>
-                    <dd class="col-sm-8"><%= serviceData.service_no %></dd>
+                    <dd class="col-sm-4">Vin</dt>
+                    <dd class="col-sm-8"><%= results.vin %></dd>
 
-                    <dd class="col-sm-4">Customer ID</dt>
-                    <dd class="col-sm-8"><%= serviceData.cust_id %></dd>
+                    <dd class="col-sm-4">Class</dt>
+                    <dd class="col-sm-8"><%= results.class %></dd>
 
                     <dd class="col-sm-4">Status</dt>
                     <dd class="col-sm-8"><%= serviceStatus[serviceData.status] %></dd>

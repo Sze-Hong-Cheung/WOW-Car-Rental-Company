@@ -12,32 +12,7 @@
 </head>
 
 <body class="text-center" style="display: block">
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">World On Wheels</a>
-            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>-->
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <!--<li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>-->
-                </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <span class="" style="color:white;margin-right: 20px;"><%= lname %></span>
-                    <a href="logout" class="my-2 my-sm-0" type="submit" style="color: white;">Sign Out</a>
-                </form>
-            </div>
-        </nav>
-    </header>
+    <%- include("user-nav") -%>
     <main role="main">
         <div class="container" style="margin-top: 50px; margin-bottom: 50px; padding-bottom: 50px">
             <% if (havePoccesingService == true) { %>
@@ -107,7 +82,7 @@
                 </div>
                 <% } else if (results.status == 2) {%>
                 <div class="card-body" style="padding-top: 0; ">
-                    <a href=<%= "/service/payment/" + results.service_no %> class="btn btn-primary" style="">Pay the
+                    <a href=<%= "/payment/" + results.service_no %> class="btn btn-primary" style="">Pay the
                         order</a>
                 </div>
                 <% } %>
@@ -116,11 +91,11 @@
             <div class="col-sm-12"><a href="/apply1" class="btn btn-primary"
                     style="display: inline-block; width: 400px; margin-bottom: 10px;">Rent a vehicle</a></div>
             <% }  %>
-            <div class="col-sm-12"><a href="/service/histry" class="btn btn-primary"
-                    style="display: inline-block; width: 400px; margin-bottom: 10px;">My history orders</a></div>
+            <div class="col-sm-12"><a href="/service/history" class="btn btn-primary"
+                    style="display: inline-block; width: 400px; margin-bottom: 10px;" target="_blank">My history orders</a></div>
             <div class="col-sm-12">
-                <a href="/change_profile" class="btn btn-primary"
-                    style="display: inline-block; width: 400px; margin-bottom: 20px;">Change my profile</a>
+                <a href="/change-profile" class="btn btn-primary"
+                    style="display: inline-block; width: 400px; margin-bottom: 20px;" target="_blank">Change my profile</a>
             </div>
         </div>
     </main>

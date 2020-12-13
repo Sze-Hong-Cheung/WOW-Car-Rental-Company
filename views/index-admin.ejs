@@ -1,0 +1,22 @@
+<%- include("header") -%>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="#">World On Wheels</a>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        
+    </div>
+</nav>
+<form  method="post" class="form-signin">
+    <h1 class="h3 mb-3 font-weight-normal">Admin System</h1>
+    <label for="inputEmpID" class="sr-only">Email address</label>
+    <input name="emp_id"  type="text" id="inputEmpID" class="form-control" placeholder="Employee ID" required
+        autofocus="">
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" >
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <a href="/signup" class=" mb-3 ext-muted">Sign up</a>
+
+    <p class="mt-5 mb-3 text-muted">© 2020-2020</p>
+</form>
+<%- include("footer") -%>

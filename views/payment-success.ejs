@@ -1,0 +1,18 @@
+<%- include("header") -%>
+
+<body style="background-color: #ffffff;">
+  <%- include("user-nav") -%>
+  <form class="form-signin">
+    <img class="mb-4" src="/image/check.png" alt="" width="90" height="90">
+    <% if (invoice_remain_amount-payment_amount > 0 ) { %>
+    <h1 class="h3 mb-3 font-weight-normal">Thank you! Your have paid $<%= payment_amount %>. Still need
+      $<%= invoice_remain_amount-payment_amount %> to pay.</h1>
+    <a href=<%= "/payment/" + service_no%> class="btn btn-lg btn-primary btn-block" style="color: aliceblue;">Continuing
+      paying</a>
+    <a href="/user" class="btn btn-lg btn-primary btn-block" style="color: aliceblue;">Back to user page</a>
+    <% } else { %>
+    <h1 class="h3 mb-3 font-weight-normal">Thank you! Your have paid all the fees.</h1>
+    <a href="/user" class="btn btn-lg btn-primary btn-block" style="color: aliceblue;">Back to user page</a>
+    <% } %>
+  </form>
+  <%- include("footer") -%>

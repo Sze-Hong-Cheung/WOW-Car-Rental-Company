@@ -1,0 +1,74 @@
+<%- include("header") -%>
+
+<body style="text-align: left!important; margin-top: 50px;">
+    <%- include("user-nav") -%>
+    <div class="container">
+
+        <div class="card" style="margin: 100px auto 50px auto; max-width: 700px;">
+            <h5 class="card-header">Change Your Profile</h5>
+
+            <div class="card-body">
+                <%  if (pageStatus == "success") { %>
+                <div class="alert alert-success" role="alert">
+                    You have successfully change your profile.
+                </div>
+                <% } %>
+                <form name="changeProfileForm" method="post" onsubmit="return checkInp()">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail">Email</label>
+                            <input disabled name="email" type="email" class="form-control" id="email"
+                                value=<%= user.email %>>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputPhone">Phone</label>
+                            <input name="phone" type="text" class="form-control" id="phone" value=<%= results.phone %>>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStreet">Street</label>
+                        <input name="street" type="text" class="form-control" id="street" value="<%= results.street %>">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input name="city" type="text" class="form-control" id="city" value="<%= results.city %>">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">State</label>
+                            <select name="state" id="state" class="form-control">
+                                <% for (let i=0; i<stateArr.length; i++) { %>
+                                <option value=<%= stateArr[i] %> <%= (results.state == stateArr[i]) ? 'Selected' : '' %>
+                                    ><%= stateArr[i] %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <input name="addr_id" type="text" class="form-control" id="addr_id" hidden
+                            value=<%= results.addr_id %>>
+                        <input name="cust_id" type="text" class="form-control" id="cust_id" hidden
+                            value=<%= results.cust_id %>>
+
+                    </div>
+                    <div style="text-align: center!important;">
+                        <button type="submit" class="btn btn-primary">Submit and change</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        function checkInp() {
+
+            let phone = document.forms["changeProfileForm"]["phone"].value;
+            let regu = /\+?\d+/g;
+
+            if (!regu.test(phone)) {
+                alert("Invaild phone number");
+                return false;
+            }
+        }
+    </script>
+    <%- include("footer") -%>

@@ -12,15 +12,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0    " style="position: fixed; width:  100%;">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">World On Wheels</a>
-
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Username Sign out</a>
-            </li>
-        </ul>
-    </nav>
+    <%- include("admin-nav") -%>
     <div class="container-fluid">
         <div class="row" style="padding-top: 30px; padding-bottom: 30px;">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
@@ -97,14 +89,17 @@
                                     Detailn
                                 </button>
                             </td>-->
-                            <td><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank'
+                            <td><% if (user.emp_type == 'A') { %>
+                                <a href=<%= "/admin/service/delete?service_no=" + serviceData[i].service_no %> class="btn btn-primary"
+                                    >Delete</a>
+                                <% } %><a href=<%= '/admin/service/' +  serviceData[i].service_no %> target='_blank'
                                     class="btn btn-primary">Detail</a>
                             </td>
                         </tr>
                         <% } %>
                     </tbody>
                 </table>
-                <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog"
+                <div class="modal fade" id="comfirmDelete" data-backdrop="static" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -127,5 +122,17 @@
             </main>
         </div>
     </div>
+    <script>
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        })
+    </script>
+
 
     <%- include("footer") -%>

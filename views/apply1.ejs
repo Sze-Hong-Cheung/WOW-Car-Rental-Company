@@ -12,66 +12,45 @@
 </head>
 
 <body class="text-center" style="display: block">
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">World On Wheels</a>
-            <!--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>-->
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mr-auto">
-                    <!--<li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                    </li>-->
-                </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <span class="" style="color:white;margin-right: 20px;">Username </span>
-                    <a href="logout" class="my-2 my-sm-0" type="submit" style="color: white;">Sign Out</a>
-                </form>
-            </div>
-        </nav>
-    </header>
+    <%- include("user-nav") -%>
     <main role="main">
         <div class="container">
             <div class="card" style="margin: 50px auto 50px auto; max-width: 700px;">
                 <h5 class="card-header">Choose your time and location</h5>
 
                 <div class="card-body">
-                    <form action="/apply1" method="post">
+                    <form name="apply1Form" action="/apply1" method="post" onsubmit="return checkInp()">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputSPickupTime">Scheduled Pickup Time</label>
-                                <input name="s_pickup_date" type="text" class="form-control" id="s_pickup_date" placeholder="YYYY/MM/DD">
+                                <input name="s_pickup_date" type="text" class="form-control" id="s_pickup_date"
+                                    placeholder="YYYY-MM-DD" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputSDropoffTime">Scheduled Dropoff Time</label>
-                                <input name="s_dropoff_date" type="text" class="form-control" id="s_dropoff_date" placeholder="YYYY/MM/DD">
+                                <input name="s_dropoff_date" type="text" class="form-control" id="s_dropoff_date"
+                                    placeholder="YYYY-MM-DD" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputPickupLoc">Pickup Location</label>
-                                <select name="pickup_loc" id="pickup_loc" class="form-control">
-                                    <option selected>Choose...</option>
+                                <select name="pickup_loc" id="pickup_loc" class="form-control" required>
                                     <% for (let i=0; i<results.length; i++) { %>
-                                    <option value=<%= results[i].office_id %>><%= results[i].street + ', ' + results[i].city + ', ' + results[i].state %></option>
+                                    <option value=<%= results[i].office_id %>>
+                                        <%= results[i].street + ', ' + results[i].city + ', ' + results[i].state %>
+                                    </option>
                                     <% } %>
                                 </select>
                             </div>
-                            
+
                             <div class="form-group col-md-6">
                                 <label for="inputDropoffLoc">Dropoff Location</label>
-                                <select name="dropoff_loc" id="dropoff_loc" class="form-control">
-                                    <option selected>Choose...</option>
+                                <select name="dropoff_loc" id="dropoff_loc" class="form-control" required>
                                     <% for (let i=0; i<results.length; i++) { %>
-                                    <option value=<%= results[i].office_id %>><%= results[i].street + ', ' + results[i].city + ', ' + results[i].state %></option>
+                                    <option value=<%= results[i].office_id %>>
+                                        <%= results[i].street + ', ' + results[i].city + ', ' + results[i].state %>
+                                    </option>
                                     <% } %>
                                 </select>
                             </div>
@@ -85,6 +64,44 @@
             </div>
         </div>
     </main>
+    <script>
+        function checkInp() {
+
+            let s_pickup_date = document.forms["apply1Form"]["s_pickup_date"].value;
+            let s_dropoff_date = document.forms["apply1Form"]["s_dropoff_date"].value;
+            let regEx = /^\d{4}-\d{2}-\d{2}$/;
+            if (!s_pickup_date.match(regEx)) {
+                alert("Invalid pickup date.")
+                return false; // Invalid format
+            }
+            if (!s_dropoff_date.match(regEx)) {
+                alert("Invalid dropoff date.")
+                return false; // Invalid format
+            }
+            let d = new Date(s_pickup_date);
+            let dNum = d.getTime();
+            if (!dNum && dNum !== 0 || !d.toISOString().slice(0, 10) === s_pickup_date) {
+                alert("Invalid pickup date.")
+                return false; // NaN value, Invalid date
+            }
+            d = new Date(s_dropoff_date);
+            dNum = d.getTime();
+            if (!dNum && dNum !== 0 || !d.toISOString().slice(0, 10) === s_dropoff_date) {
+                alert("Invalid pickup date.")
+                return false; // NaN value, Invalid date
+            }
+            if (new Date(s_pickup_date) < new Date()) {
+                alert("Pickup date can not be earlier than today.")
+                return false; 
+            }
+            if (new Date(s_dropoff_date) < new Date(s_pickup_date)) {
+                alert("Drop-off date can not be earlier than pickup date.")
+                return false; 
+            }
+
+        }
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>

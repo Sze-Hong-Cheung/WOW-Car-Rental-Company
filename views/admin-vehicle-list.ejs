@@ -12,14 +12,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0    " style="position: fixed; width:  100%;">
-        <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">World On Wheels</a>
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Username Sign out</a>
-            </li>
-        </ul>
-    </nav>
+    <%- include("admin-nav") -%>
     <div class="container-fluid">
         <div class="row" style="padding-top: 30px; padding-bottom: 30px;">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
@@ -33,7 +26,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/admin/customer">
-                                Customer 
+                                Customer
                             </a>
                         </li>
                         <li class="nav-item">
@@ -56,8 +49,7 @@
                             <select name="class_no" class="form-control" id="exampleFormControlSelect1">
                                 <option <%= class_no == '' ? 'Selected' : '' %> value=''>All</option>
                                 <% for (let i=1 ; i<vehicleClassArr.length; i++) { %>
-                                <option value=<%= i %>
-                                    <%= (class_no == i && class_no !== '') ? 'Selected' : '' %>>
+                                <option value=<%= i %> <%= (class_no == i && class_no !== '') ? 'Selected' : '' %>>
                                     <%= vehicleClassArr[i] %></option>
                                 <% } %>
                             </select>
@@ -80,7 +72,7 @@
                             <th scope="col">Vin</th>
                             <th scope="col">Class</th>
                             <th scope="col">Make/Model/Year</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">License Plate Number</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -89,11 +81,7 @@
                             <td><%= vehicleData[i].vin %></td>
                             <td><%= vehicleData[i].class_name %></td>
                             <td><%= vehicleData[i].make %> <%= vehicleData[i].model %> <%= vehicleData[i].year %></td>
-                            <td><a href=<%= '/admin/vehicle/delete?vin=' +  vehicleData[i].vin %>
-                                    class="btn btn-primary">Delete</a>
-                                <a href=<%= '/admin/vehicle/' +  vehicleData[i].vin %> target='_blank'
-                                    class="btn btn-primary">Detail</a>
-                            </td>
+                            <td><%= vehicleData[i].license_plate_no %></td>
                         </tr>
                         <% } }%>
                     </tbody>

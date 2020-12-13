@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Order History</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel='stylesheet' type='text/css' href="/css/admin-service-list.css">
+</head>
+
+<body>
+    <%- include("user-nav") -%>
+    <div class="container-fluid">
+        <div class="row" style="padding-top: 30px; padding-bottom: 30px;">
+            <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-md-4">
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">Service No.</th>
+                            <th scope="col">Apply time</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Detail</th>
+                            <th scope="col">Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let i=0; i<results.length; i++) { %>
+                        <tr>
+                            <td><%= results[i].service_no %></td>
+                            <td><%= results[i].apply_time %></td>
+                            <td><%= serviceStatusArr[results[i].status] %></td>
+                            <td ><a href=<%= '/service/' +  results[i].service_no %> target='_blank'
+                                    class="btn btn-primary">Detail</a>
+
+                            </td>
+                            <td>
+                                <% if (results[i].status == 3 || results[i].status == 2) { %>
+                                <a href=<%= '/payment/list/' +  results[i].service_no %> target='_blank'
+                                    class="btn btn-primary">Payment</a>
+                                    <% }%>
+                        </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div class="modal fade" id="serviceDetail" data-backdrop="static" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <%- include("footer") -%>

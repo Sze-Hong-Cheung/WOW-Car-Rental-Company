@@ -1,0 +1,68 @@
+<%- include("header") -%>
+
+<body style="text-align: left!important; margin-top: 50px;">
+    <%- include("user-nav") -%>
+    <div class="container">
+
+        <div class="card" style="margin: 100px auto 50px auto; max-width: 700px;">
+            <h5 class="card-header">Sign up Corporate Account</h5>
+
+            <div class="card-body">
+                <form method="post">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail">Email</label>
+                            <input name="email" type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputPassword">Password</label>
+                            <input name="password" type="password" class="form-control" id="password" required>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputPhone">Phone</label>
+                            <input name="phone" type="text" class="form-control" id="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStreet">Street</label>
+                        <input name="street" type="text" class="form-control" id="Street" placeholder="1234 Main St" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">City</label>
+                            <input name="city" type="text" class="form-control" id="city" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputState">State</label>
+                            <select name="state" id="state" class="form-control" required>
+                                <option selected>Choose...</option>
+                                <% for (let i=0; i<stateArr.length; i++) { %>
+                                <option value=<%= stateArr[i] %>><%= stateArr[i] %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmpID">Employee ID</label>
+                        <input name="emp_id" type="text" class="form-control" id="emp_id"
+                            placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputInsuranceCompanyName">Company Registration Number</label>
+                        <input name="registration_number" type="text" class="form-control" id="registration_number"
+                            placeholder="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputCName">Company Name</label>
+                        <input name="cname" type="text" class="form-control" id="cname"
+                            placeholder="" required>
+                    </div>
+                    <div style="text-align: center!important;">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include("footer") -%>
