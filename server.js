@@ -24,12 +24,8 @@ app.use(
     extended: true,
   })
 );
-
 app.use(cookieParser());
 app.use(express.static("public"));
-
-//const store = new BetterMemoryStore({ expires: 60 * 60 * 1000, debug: true });
-
 app.use(
   session({
     secret: "session secret of jesse",
@@ -38,7 +34,6 @@ app.use(
     resave: true,
   })
 );
-
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -52,7 +47,6 @@ let serviceStatusArr = [
   "Completed",
   "Canceled",
 ];
-
 let vehicleClassArr = [
   "",
   "small car",
@@ -69,7 +63,6 @@ let vehicleClassArr = [
 let rentalRateArr = ["", 40, 60, 80, 65, 70, 50, 60, 50, 80, 25];
 let mileageFeeArr = ["", 2, 2, 3, 2, 3, 2.5, 2.5, 2.5, 4, 1.5];
 let odometerLimitArr = ["", 500, 500, 300, 600, 600, 700, 700, 700, 800, 500];
-
 let stateArr = [
   "CA",
   "TX",
@@ -101,7 +94,6 @@ const connection = mysql.createConnection({
   password: "12345678",
   database: "wow_db",
 });
-
 connection.connect((err) => {
   if (err) throw err;
   console.log("Connected!");
@@ -158,7 +150,6 @@ passport.use(
     }
   )
 );
-
 passport.use(
   "local-admin",
   new LocalStrategy(
@@ -273,15 +264,25 @@ app.get("/signup-i", function (req, res) {
     signupIHistory: signupIHistory,
   });
 });
+/********** get_signup-c ***********/
+app.get("/signup-c", function (req, res) {
+  res.render("signup-corporate", {
+    user: "",
+    stateArr: stateArr,
+    signupIHistory: signupIHistory,
+  });
+});
 
 /********** post_signup-i ***********/
 app.post("/signup-i", function (req, res) {
   let body = req.body;
+  let salt = "7fa73b47df808d36c5fe328546ddef8b9011b2c6";
   let password = crypto
     .createHash("sha1")
     .update(salt + body.password)
     .digest("hex");
 
+  /* transaction */
   connection.beginTransaction(function (err) {
     if (err) console.log(err);
     connection.query(
@@ -332,6 +333,18 @@ app.post("/signup-i", function (req, res) {
                         if (err) {
                           return next(err);
                         }
+                        signupIHistory = {
+                          email: "",
+                          fname: "",
+                          lname: "",
+                          phone: "",
+                          street: "",
+                          city: "",
+                          state: "",
+                          driver_license_no: "",
+                          insurance_co_name: "",
+                          insurance_policy_no: "",
+                        };
                         return res.render("signup-success", { user: "" });
                       });
                     }
@@ -363,15 +376,6 @@ app.post("/signup-i", function (req, res) {
   });*/
 });
 
-/********** get_signup-c ***********/
-app.get("/signup-c", function (req, res) {
-  res.render("signup-corporate", {
-    user: "",
-    stateArr: stateArr,
-    signupIHistory: signupIHistory,
-  });
-});
-
 /********** post_signup-c ***********/
 app.post("/signup-c", function (req, res) {
   let body = req.body;
@@ -380,6 +384,7 @@ app.post("/signup-c", function (req, res) {
     .update(salt + body.password)
     .digest("hex");
 
+  /* transaction */
   connection.beginTransaction(function (err) {
     if (err) console.log(err);
     connection.query(
@@ -444,6 +449,18 @@ app.post("/signup-c", function (req, res) {
                                   if (err) {
                                     return next(err);
                                   }
+                                  signupIHistory = {
+                                    email: "",
+                                    fname: "",
+                                    lname: "",
+                                    phone: "",
+                                    street: "",
+                                    city: "",
+                                    state: "",
+                                    driver_license_no: "",
+                                    insurance_co_name: "",
+                                    insurance_policy_no: "",
+                                  };
                                   return res.render("signup-success", {
                                     user: "",
                                   });
@@ -479,6 +496,18 @@ app.post("/signup-c", function (req, res) {
                               if (err) {
                                 return next(err);
                               }
+                              signupIHistory = {
+                                email: "",
+                                fname: "",
+                                lname: "",
+                                phone: "",
+                                street: "",
+                                city: "",
+                                state: "",
+                                driver_license_no: "",
+                                insurance_co_name: "",
+                                insurance_policy_no: "",
+                              };
                               return res.render("signup-success", { user: "" });
                             });
                           }
@@ -1184,8 +1213,8 @@ app.post("/admin/service/:service_no", function (req, res) {
     if (couponStatus0 != "" && couponStatus0 != undefined) {
       console.log("Input coupon no:" + couponStatus0);
       connection.query(
-        "SELECT coupon_no, date_format(start_date, '%Y-%m-%d') as start_date, date_format(end_date, '%Y-%m-%d') as end_date FROM shc_coupon WHERE coupon_no=" +
-          couponStatus0,
+        "SELECT coupon_no, date_format(start_date, '%Y-%m-%d') as start_date, date_format(end_date, '%Y-%m-%d') as end_date FROM shc_coupon WHERE coupon_no=?",
+        [couponStatus0],
         function (error, results, fields) {
           if (error) throw error;
           if (results.length == 0 || results[0].coupon_no == 10000) {
@@ -1235,7 +1264,8 @@ app.post("/admin/service/:service_no", function (req, res) {
       function (error, results, fields) {
         if (error) throw error;
         let cust_type = results[0].cust_type;
-        if (results.start_odometer > odometerStatus1) {
+        console.log(results[0]);
+        if (results[0].start_odometer > odometerStatus1) {
           odometerInputStatus1 =
             "End odometer must be larger than start odometer.";
           console.log(odometerInputStatus1);
@@ -1422,6 +1452,72 @@ app.get("/admin/logout", function (req, res) {
 
 app.get("/populate/vehicle", function (req, res) {
   let len = 17;
+  let chars = "ABCDEFGHJKMNPQRSTWXYZ2345678";
+  let maxPos = chars.length;
+  let makeList = [
+    "Porsche",
+    "Mercedes Benz",
+    "Audi",
+    "Volkswagen",
+    "BMW",
+    "Ford",
+    "Tesla",
+    "Toyota",
+    "Honda",
+    "Volvo",
+    "Hyundai",
+  ];
+  let modelList = [
+    "1 Series",
+    "100",
+    "124 Spider",
+    "1500 Classic Regular Cab",
+    "190 E",
+    "1500 Extended Cab",
+  ];
+  let yearList = [1990, 1995, 2000, 2005, 2010, 1993, 2998, 2003, 2009];
+  let classList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  let officeList = [
+    10001,
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009,
+    10010,
+  ];
+  console.log(officeList);
+  for (var i = 0; i < 1000; i++) {
+    var vin = "";
+    for (var j = 0; j < len; j++) {
+      vin += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    console.log(vin);
+    var license_plate_no = "";
+    for (var k = 0; k < 6; k++) {
+      license_plate_no += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    console.log(license_plate_no);
+    make = makeList[Math.floor(Math.random() * makeList.length)];
+    console.log(make);
+    model = modelList[Math.floor(Math.random() * modelList.length)];
+    year = yearList[Math.floor(Math.random() * yearList.length)];
+    class_no = classList[Math.floor(Math.random() * classList.length)];
+    office_id = officeList[Math.floor(Math.random() * officeList.length)];
+    connection.query(
+      "INSERT INTO shc_vehicle VALUES (?,?,?,?,?,?,?,?)",
+      [vin, license_plate_no, make, model, year, 0, class_no, office_id],
+      function (error, results, fields) {
+        if (error) throw error;
+        console.log(results);
+      }
+    );
+  }
+});
+app.get("/populate/vehicle", function (req, res) {
   let chars = "ABCDEFGHJKMNPQRSTWXYZ2345678";
   let maxPos = chars.length;
   let makeList = [

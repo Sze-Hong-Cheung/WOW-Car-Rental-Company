@@ -35,8 +35,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-app.use(express["static"]("public")); //const store = new BetterMemoryStore({ expires: 60 * 60 * 1000, debug: true });
-
+app.use(express["static"]("public"));
 app.use(session({
   secret: "session secret of jesse",
   //store: store,
@@ -185,11 +184,23 @@ app.get("/signup-i", function (req, res) {
     signupIHistory: signupIHistory
   });
 });
+/********** get_signup-c ***********/
+
+app.get("/signup-c", function (req, res) {
+  res.render("signup-corporate", {
+    user: "",
+    stateArr: stateArr,
+    signupIHistory: signupIHistory
+  });
+});
 /********** post_signup-i ***********/
 
 app.post("/signup-i", function (req, res) {
   var body = req.body;
+  var salt = "7fa73b47df808d36c5fe328546ddef8b9011b2c6";
   var password = crypto.createHash("sha1").update(salt + body.password).digest("hex");
+  /* transaction */
+
   connection.beginTransaction(function (err) {
     if (err) console.log(err);
     connection.query("INSERT INTO shc_address (state, city ,street) values (?, ?, ?);", [body.state, body.city, body.street], function (error, results, fields) {
@@ -226,6 +237,18 @@ app.post("/signup-i", function (req, res) {
                   return next(err);
                 }
 
+                signupIHistory = {
+                  email: "",
+                  fname: "",
+                  lname: "",
+                  phone: "",
+                  street: "",
+                  city: "",
+                  state: "",
+                  driver_license_no: "",
+                  insurance_co_name: "",
+                  insurance_policy_no: ""
+                };
                 return res.render("signup-success", {
                   user: ""
                 });
@@ -253,20 +276,13 @@ app.post("/signup-i", function (req, res) {
     );
   });*/
 });
-/********** get_signup-c ***********/
-
-app.get("/signup-c", function (req, res) {
-  res.render("signup-corporate", {
-    user: "",
-    stateArr: stateArr,
-    signupIHistory: signupIHistory
-  });
-});
 /********** post_signup-c ***********/
 
 app.post("/signup-c", function (req, res) {
   var body = req.body;
   var password = crypto.createHash("sha1").update(salt + body.password).digest("hex");
+  /* transaction */
+
   connection.beginTransaction(function (err) {
     if (err) console.log(err);
     connection.query("INSERT INTO shc_address (state, city ,street) values (?, ?, ?);", [body.state, body.city, body.street], function (error, results, fields) {
@@ -320,6 +336,18 @@ app.post("/signup-c", function (req, res) {
                         return next(err);
                       }
 
+                      signupIHistory = {
+                        email: "",
+                        fname: "",
+                        lname: "",
+                        phone: "",
+                        street: "",
+                        city: "",
+                        state: "",
+                        driver_license_no: "",
+                        insurance_co_name: "",
+                        insurance_policy_no: ""
+                      };
                       return res.render("signup-success", {
                         user: ""
                       });
@@ -349,6 +377,18 @@ app.post("/signup-c", function (req, res) {
                       return next(err);
                     }
 
+                    signupIHistory = {
+                      email: "",
+                      fname: "",
+                      lname: "",
+                      phone: "",
+                      street: "",
+                      city: "",
+                      state: "",
+                      driver_license_no: "",
+                      insurance_co_name: "",
+                      insurance_policy_no: ""
+                    };
                     return res.render("signup-success", {
                       user: ""
                     });
@@ -914,7 +954,7 @@ app.post("/admin/service/:service_no", function (req, res) {
 
     if (couponStatus0 != "" && couponStatus0 != undefined) {
       console.log("Input coupon no:" + couponStatus0);
-      connection.query("SELECT coupon_no, date_format(start_date, '%Y-%m-%d') as start_date, date_format(end_date, '%Y-%m-%d') as end_date FROM shc_coupon WHERE coupon_no=" + couponStatus0, function (error, results, fields) {
+      connection.query("SELECT coupon_no, date_format(start_date, '%Y-%m-%d') as start_date, date_format(end_date, '%Y-%m-%d') as end_date FROM shc_coupon WHERE coupon_no=?", [couponStatus0], function (error, results, fields) {
         if (error) throw error;
 
         if (results.length == 0 || results[0].coupon_no == 10000) {
@@ -949,8 +989,9 @@ app.post("/admin/service/:service_no", function (req, res) {
     connection.query("SELECT a.cust_type, b.start_odometer from shc_customer a join shc_service b on a.cust_id = b.cust_id WHERE service_no=?", [service_no], function (error, results, fields) {
       if (error) throw error;
       var cust_type = results[0].cust_type;
+      console.log(results[0]);
 
-      if (results.start_odometer > odometerStatus1) {
+      if (results[0].start_odometer > odometerStatus1) {
         odometerInputStatus1 = "End odometer must be larger than start odometer.";
         console.log(odometerInputStatus1);
         res.redirect("/admin/service/" + service_no);
@@ -1097,6 +1138,43 @@ app.get("/admin/logout", function (req, res) {
 });
 app.get("/populate/vehicle", function (req, res) {
   var len = 17;
+  var chars = "ABCDEFGHJKMNPQRSTWXYZ2345678";
+  var maxPos = chars.length;
+  var makeList = ["Porsche", "Mercedes Benz", "Audi", "Volkswagen", "BMW", "Ford", "Tesla", "Toyota", "Honda", "Volvo", "Hyundai"];
+  var modelList = ["1 Series", "100", "124 Spider", "1500 Classic Regular Cab", "190 E", "1500 Extended Cab"];
+  var yearList = [1990, 1995, 2000, 2005, 2010, 1993, 2998, 2003, 2009];
+  var classList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  var officeList = [10001, 10002, 10003, 10004, 10005, 10006, 10007, 10008, 10009, 10010];
+  console.log(officeList);
+
+  for (var i = 0; i < 1000; i++) {
+    var vin = "";
+
+    for (var j = 0; j < len; j++) {
+      vin += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+
+    console.log(vin);
+    var license_plate_no = "";
+
+    for (var k = 0; k < 6; k++) {
+      license_plate_no += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+
+    console.log(license_plate_no);
+    make = makeList[Math.floor(Math.random() * makeList.length)];
+    console.log(make);
+    model = modelList[Math.floor(Math.random() * modelList.length)];
+    year = yearList[Math.floor(Math.random() * yearList.length)];
+    class_no = classList[Math.floor(Math.random() * classList.length)];
+    office_id = officeList[Math.floor(Math.random() * officeList.length)];
+    connection.query("INSERT INTO shc_vehicle VALUES (?,?,?,?,?,?,?,?)", [vin, license_plate_no, make, model, year, 0, class_no, office_id], function (error, results, fields) {
+      if (error) throw error;
+      console.log(results);
+    });
+  }
+});
+app.get("/populate/vehicle", function (req, res) {
   var chars = "ABCDEFGHJKMNPQRSTWXYZ2345678";
   var maxPos = chars.length;
   var makeList = ["Porsche", "Mercedes Benz", "Audi", "Volkswagen", "BMW", "Ford", "Tesla", "Toyota", "Honda", "Volvo", "Hyundai"];
